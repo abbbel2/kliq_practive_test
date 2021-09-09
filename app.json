@@ -1,0 +1,44 @@
+{
+    "expo": {
+        "name": "test",
+        "slug": "test-kliq",
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#0065d9"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": [
+            "**/*"
+        ],
+        "ios": {
+            "bundleIdentifier": "com.kliq.kliqtest",
+            "buildNumber": "1.0.0",
+            "config": {
+                "googleMapsApiKey": "AIzaSyBR3Vl52I677pJbJHpvWRxiuEduAkmncK8"
+            },
+            "supportsTablet": true
+        },
+        "android": {
+            "package": "com.kliq.kliqtest",
+            "config": {
+                "googleMaps": {
+                    "apiKey": "AIzaSyCJ5q3Mn1qZ4YhNAXWEe16nwT5k92p-tGo"
+                }
+            },
+            "versionCode": 1,
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/playstore.png",
+                "backgroundColor": "#FFFFFF"
+            }
+        },
+        "web": {
+            "favicon": "./assets/playstore.png"
+        }
+    }
+}
