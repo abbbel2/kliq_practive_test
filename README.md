@@ -7,7 +7,12 @@ This is a doc on how to setup the test project
     $ git clone https://github.com/abbbel2/kliq_practive_test.git
     $ cd kliq_practive_test
     $ npm install
-    $ npm start
+    $ npm run android (for android)
+    $ npm run ios (for ios)
+
+## Back end
+
+For back-end, i have setup a nodejs api for user authentication.
 
 ## Screens
 
