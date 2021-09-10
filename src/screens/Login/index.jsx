@@ -1,19 +1,45 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTheme } from "@react-navigation/native";
+import { Formik } from "formik";
 import React from "react";
 import {
-  View,
-  ScrollView,
-  ImageBackground,
+  Alert,
   Dimensions,
+  ImageBackground,
+  ScrollView,
   StyleSheet,
-  TextInput,
   Text,
+  View,
 } from "react-native";
-import { Icon, Input, Button } from "react-native-elements";
-import { useTheme } from "@react-navigation/native";
+import { Button, Icon, Input } from "react-native-elements";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/actions/auth/login.action";
+import { LoginValidationSchema } from "../../utilities/validation";
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen() {
   const { height, width } = Dimensions.get("window");
   const { colors } = useTheme();
+  const loginData = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+
+  async function handleLogin(token) {
+    try {
+      await AsyncStorage.setItem("login_key", token);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  if (loginData.login_data) {
+    if (loginData.login_data.success) {
+      handleLogin(loginData.login_data.data.access_token);
+    } else if (loginData.login_data.success === false) {
+      Alert.alert("Error occured", "User credential not correct", [
+        { text: "OK", onPress: () => console.log("OK Pressed") },
+      ]);
+    }
+  }
+
   return (
     <ScrollView
       style={{ flex: 1, backgroundColor: "#fff" }}
@@ -30,33 +56,53 @@ export default function LoginScreen({ navigation }) {
       </ImageBackground>
 
       <View style={styles.formView}>
-        <View style={{ padding: 20 }}>
-          <Text style={{ color: colors.primary, fontSize: 20 }}>
-            Welcome Back,
-          </Text>
-          <View style={{ marginTop: height / 15 }}>
-            <Input
-              placeholder="User name"
-              rightIcon={{ name: "person", color: colors.primary }}
-              label="User name"
-              //  onChangeText={value => this.setState({ comment: value })}
-            />
-            <Input
-              placeholder="Password"
-              rightIcon={{ name: "lock", color: colors.primary }}
-              label="Password"
-              secureTextEntry={true}
-              //  onChangeText={value => this.setState({ comment: value })}
-            />
-          </View>
-          <View style={{ marginTop: height / 18 }}>
-            <Button
-              title="Login"
-              buttonStyle={{ backgroundColor: colors.primary }}
-              onPress={() => navigation.navigate("HomeScreen")}
-            />
-          </View>
-        </View>
+        <Formik
+          initialValues={{ userName: "", password: "" }}
+          validationSchema={LoginValidationSchema}
+          onSubmit={(values) => login(values, dispatch)}
+        >
+          {(props) => {
+            const { values, handleSubmit, handleChange, errors } = props;
+            return (
+              // <Form>
+              <View style={{ padding: 20 }}>
+                <Text style={{ color: colors.primary, fontSize: 20 }}>
+                  Welcome Back,
+                </Text>
+                <View style={{ marginTop: height / 15 }}>
+                  <Input
+                    name="userName"
+                    placeholder="User name"
+                    rightIcon={{ name: "person", color: colors.primary }}
+                    label="User name"
+                    value={values.userName}
+                    onChangeText={handleChange("userName")}
+                    errorMessage={errors.userName}
+                  />
+                  <Input
+                    name="password"
+                    placeholder="Password"
+                    rightIcon={{ name: "lock", color: colors.primary }}
+                    label="Password"
+                    secureTextEntry={true}
+                    value={values.password}
+                    onChangeText={handleChange("password")}
+                    errorMessage={errors.password}
+                  />
+                </View>
+                <View style={{ marginTop: height / 18 }}>
+                  <Button
+                    title="Login"
+                    loading={loginData.loading}
+                    buttonStyle={{ backgroundColor: colors.primary }}
+                    onPress={handleSubmit}
+                  />
+                </View>
+              </View>
+              // </Form>
+            );
+          }}
+        </Formik>
       </View>
     </ScrollView>
   );

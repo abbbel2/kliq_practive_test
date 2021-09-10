@@ -1,0 +1,4 @@
+export const LOGIN_USER = "LOGIN_USER";
+export const LOADING_LOGIN_USER = "LOADING_LOGIN_USER";
+export const ERROR_LOGIN_USER = "ERROR_LOGIN_USER";
+export const RESET_LOGIN_USER = "RESET_LOGIN_USER";
