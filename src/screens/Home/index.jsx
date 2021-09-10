@@ -7,6 +7,9 @@ import { countries } from "../../utilities/countries";
 import { useTheme } from "@react-navigation/native";
 
 export default function HomeScreen() {
+  /**
+   * prevented back button on phone
+   */
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", () => true);
     return () =>
@@ -15,12 +18,19 @@ export default function HomeScreen() {
 
   const { colors } = useTheme();
   let map = useRef();
+
+  /**
+   * initiated map data
+   */
   const [state, setState] = useState({
     curPos: { latitude: 8.965743, longitude: 38.728358 },
     latitudeDelta: 0.9,
     longitudeDelta: 0.9,
   });
 
+  /**
+   * Function to change position to next random position
+   */
   const changePosition = () => {
     const latitude =
       countries[Math.floor(Math.random() * countries.length)].latitude;

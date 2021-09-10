@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer, useTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React, { useEffect, useState } from "react";
+import { Icon } from "react-native-elements";
+import { useSelector } from "react-redux";
 import HomeScreen from "../screens/Home";
-import LoginScreen from "../screens/Login";
 import IntroScreen from "../screens/Intro";
-import Theme from "./theme";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoginScreen from "../screens/Login";
 import Splash from "../screens/Splash";
-import { Button, Icon } from "react-native-elements";
-import { useDispatch, useSelector } from "react-redux";
+import Theme from "./theme";
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
+  // initiated all states
   const { colors } = useTheme();
   const [loading, setLoading] = useState(true);
   const [logoutLoading, setLogoutLoading] = useState(false);
@@ -20,6 +21,9 @@ export default function Navigation() {
   const [logout, setLogout] = useState(false);
   const loginData = useSelector((state) => state.login);
 
+  /**
+   * check if user is already signed and watch for login and logout actions
+   */
   useEffect(() => {
     async function authData() {
       try {
@@ -35,6 +39,9 @@ export default function Navigation() {
     authData();
   }, [loginData.login_data, logout]);
 
+  /**
+   * remove token
+   */
   async function handleLogout() {
     try {
       await AsyncStorage.removeItem("login_key");

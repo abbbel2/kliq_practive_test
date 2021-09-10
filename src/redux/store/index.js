@@ -1,9 +1,8 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import AllReducer from "../reducers";
-import logger from 'redux-logger'
 
-
+// used thunk as middleware
 const middleware = [thunk];
 const initialState = {};
 

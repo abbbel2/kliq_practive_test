@@ -10,6 +10,11 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
+/**
+ *
+ * @param {*} param0
+ * This is the Intro screen
+ */
 export default function IntroScreen({ navigation }) {
   return (
     <View style={styles.main} showsVerticalScrollIndicator={false}>

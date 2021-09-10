@@ -14,14 +14,25 @@ import {
 import { Button, Icon, Input } from "react-native-elements";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/actions/auth/login.action";
+// Login vaidation schemas
 import { LoginValidationSchema } from "../../utilities/validation";
 
+/**
+ * Login screen
+ */
 export default function LoginScreen() {
   const { height, width } = Dimensions.get("window");
+  // fetch app theme
   const { colors } = useTheme();
+  // get login data from redux store
   const loginData = useSelector((state) => state.login);
   const dispatch = useDispatch();
 
+  /**
+   * Set token to async storage
+   * @param {*} token
+   *
+   */
   async function handleLogin(token) {
     try {
       await AsyncStorage.setItem("login_key", token);
@@ -30,6 +41,9 @@ export default function LoginScreen() {
     }
   }
 
+  /**
+   * watch changes from redux
+   */
   if (loginData.login_data) {
     if (loginData.login_data.success) {
       handleLogin(loginData.login_data.data.access_token);
